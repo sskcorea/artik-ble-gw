@@ -25,7 +25,7 @@ bt.on('started', function() {
 			console.log("Error: " +err);
 			process.exit();
 		}
-        device = JSON.parse(device);
+		device = JSON.parse(device);
 		remote_addr = device[0].address;
 		bt.connect(device[0].address);
 		bt.stop_scan();
@@ -45,15 +45,15 @@ bt.on('started', function() {
 		var thermometer = services.find(function(service) {
 			console.log("service.uuid = " + service.uuid);
 			return service.uuid == SERVICE_THERMOMETER
-        });
-        
-        var characteristics = thermometer.discover_characteristics();
-        temp_measurement = characteristics.find(function(chr) { return chr.uuid == GATT_CHAR_TEMP_MEASUREMENT});
-        
-        var include_indicate = includes(temp_measurement.properties, "indicate");
+		});
+
+		var characteristics = thermometer.discover_characteristics();
+		temp_measurement = characteristics.find(function(chr) { return chr.uuid == GATT_CHAR_TEMP_MEASUREMENT});
+
+		var include_indicate = includes(temp_measurement.properties, "indicate");
 		if (include_indicate) {
 			temp_measurement.on("data", function(buffer) {
-                console.log(buffer);
+				console.log(buffer);
 			});
 			temp_measurement.subscribe();
 			process.on('SIGINT', function() {
